@@ -1,13 +1,12 @@
 {
-  "name": "ShaqoHub - Raadista Shaqooyin",
+  "name": "ShaqoHub",
   "short_name": "ShaqoHub",
-  "id": "/",
-  "start_url": "/index.html",
-  "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait",
+  "start_url": "/",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
   "background_color": "#ffffff",
-  "theme_color": "#6366f1",
+  "theme_color": "#6366f1"
+
   "description": "Hel shaqooyin internetka ah oo sugan, kana ilaalo kuwa khiyaanada ah. ShaqoHub waa ilahaaga koowaad ee shaqo raadinta online-ka ah.",
   "lang": "so",
   "dir": "ltr",
