@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="so" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>ShaqoHub - Raadista Shaqooyin Internetka</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="apple-touch-icon" href="192.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ShaqoHub">
+
+<link rel="icon" type="image/png" href="192.png">
+
+
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#4f46e5" />
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#111827',
+                        darkCard: '#1f2937',
+                        primary: '#6366f1'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding-bottom: 80px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Hide Scrollbar */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Hero Gradient */
+        .hero-card { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
+
+        /* Smooth Transitions */
+        * { transition: background-color 0.3s ease, color 0.2s ease, transform 0.2s ease; }
+
+        /* Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #6366f1;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #6366f1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen dark:bg-darkBg dark:text-white transition-colors duration-300">
+
+    <header class="px-6 pt-6 pb-2 bg-white sticky top-0 z-40 shadow-sm dark:bg-darkCard dark:border-b dark:border-gray-700 transition-colors">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-gray-200 overflow-hidden border-2 border-white shadow-sm dark:border-gray-600">
+                    <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="Profile" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <p class="text-gray-500 text-xs font-medium dark:text-gray-400">Subax wanaagsan,</p>
+                    <h1 class="text-lg font-bold text-gray-800 dark:text-white">Soo Dhawow!</h1>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 relative dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <i class="fas fa-bell"></i>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex gap-3 items-center">
+            <div class="relative flex-1">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="searchTasks" placeholder="Raadi shaqooyin..." class="w-full bg-gray-100 border-none rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+            </div>
+            <button class="w-12 h-12 bg-white border border-gray-200 rounded-2xl flex items-center justify-center text-gray-600 shadow-sm dark:bg-darkCard dark:border-gray-600 dark:text-white">
+                <i class="fas fa-sliders-h"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-4">
+        
+        <div class="hero-card rounded-3xl p-6 text-white mb-8 shadow-lg relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-2xl font-bold mb-2 leading-tight">Raadi Shaqooyin<br>Cusub Maanta</h2>
+                <p class="text-indigo-100 text-xs mb-4 max-w-[70%]">Hel shaqooyin internetka ah oo sugan, kana ilaalo kuwa khiyaanada ah.</p>
+                <button onclick="navigateToSection('tasks')" class="bg-white text-indigo-600 px-6 py-2.5 rounded-xl text-sm font-bold shadow-md active:scale-95 transition-transform">
+                    <i class="fas fa-compass mr-2"></i>Bilow Raadinta
+                </button>
+            </div>
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+        </div>
+
+        <div id="home" class="section active-section">
+            <div class="flex justify-between items-end mb-4">
+                <h3 class="text-lg font-bold text-gray-800 dark:text-white">Qeybaha Caanka ah</h3>
+                <button class="text-indigo-500 text-xs font-semibold">Eeg Dhammaan</button>
+            </div>
+
+            <div class="flex overflow-x-auto gap-4 pb-4 scrollbar-hide snap-x" id="categoriesContainer"></div>
+
+            <div class="flex justify-between items-end mb-4 mt-2">
+                <h3 class="text-lg font-bold text-gray-800 dark:text-white">Lagula Taliyay</h3>
+                <button class="text-indigo-500 text-xs font-semibold">Kala Saar</button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-5 pb-20" id="tasksContainer"></div>
+        </div>
+
+        <div id="tasks" class="section hidden pb-20">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">Dhammaan Shaqooyinka</h2>
+            <div id="allTasksContainer" class="grid grid-cols-1 gap-5"></div>
+        </div>
+        
+
+        <div id="profile" class="section hidden pb-20">
+            <div class="bg-white dark:bg-darkCard rounded-3xl p-6 shadow-sm text-center mb-6 transition-colors">
+                <div class="w-20 h-20 rounded-full bg-indigo-100 mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-indigo-600 border-4 border-white dark:border-gray-600 shadow-md">US</div>
+                <h2 class="text-xl font-bold dark:text-white">User Name</h2>
+                <p class="text-gray-500 text-sm dark:text-gray-400"></p>
+            </div>
+
+            <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 uppercase dark:text-gray-400">Settings</h3>
+            <div class="bg-white dark:bg-darkCard rounded-2xl shadow-sm overflow-hidden mb-6 transition-colors">
+                
+                <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-white">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <span class="font-medium text-sm dark:text-white">Dark Mode</span>
+                    </div>
+                    <label for="darkModeToggle" class="flex items-center cursor-pointer relative">
+                        <input type="checkbox" id="darkModeToggle" class="sr-only" onchange="toggleDarkMode()">
+                        <div class="w-11 h-6 bg-gray-200 rounded-full border border-gray-200 toggle-bg dark:bg-gray-700 dark:border-gray-600"></div>
+                        <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition shadow-sm"></div>
+                    </label>
+                </div>
+
+                <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-50 dark:bg-gray-700 flex items-center justify-center text-blue-500">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <span class="font-medium text-sm dark:text-white">Luqadda</span>
+                    </div>
+<div class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+    <button onclick="changeLanguage('so')" id="lang-so" class="px-3 py-1 rounded-md text-xs font-bold bg-white text-indigo-600 shadow-sm">So</button>
+    <button onclick="changeLanguage('en')" id="lang-en" class="px-3 py-1 rounded-md text-xs font-medium text-gray-500 dark:text-gray-400">En</button>
+</div>
+
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold text-gray-500 mb-3 ml-2 uppercase dark:text-gray-400">About ShaqoHub</h3>
+            <div class="bg-white dark:bg-darkCard rounded-2xl shadow-sm overflow-hidden mb-6 transition-colors">
+                
+                <button onclick="showInfo('mission')" class="w-full flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <span class="font-medium text-sm dark:text-white">Ujeedada App-ka</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                </button>
+
+                <button onclick="showInfo('privacy')" class="w-full flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-500">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <span class="font-medium text-sm dark:text-white">Privacy Policy</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                </button>
+
+                <button onclick="showInfo('terms')" class="w-full flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <span class="font-medium text-sm dark:text-white">Terms & Conditions</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                </button>
+
+                <a href="https://wa.me/252637864155" target="_blank" class="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                            <i class="fab fa-whatsapp text-lg"></i>
+                        </div>
+                        <span class="font-medium text-sm dark:text-white">Nala Soo Xiriir</span>
+                    </div>
+                    <span class="text-xs text-gray-400">252 63 7864155</span>
+                </a>
+            </div>
+
+            <div class="text-center mt-6 mb-4">
+                <p class="text-gray-400 text-xs">Version 1.0.0</p>
+                <p class="text-gray-300 text-[10px] mt-1">Made  in Xirfadsame</p>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="taskDetailModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-end sm:items-center justify-center backdrop-blur-sm">
+        <div class="bg-white dark:bg-darkCard w-full sm:max-w-md h-[85vh] sm:h-auto rounded-t-3xl sm:rounded-3xl overflow-hidden flex flex-col shadow-2xl transition-colors">
+            <div class="relative h-48 bg-gray-200">
+                <img id="modalImage" src="" class="w-full h-full object-cover">
+                <button id="closeModal" class="absolute top-4 left-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md">
+                    <i class="fas fa-arrow-left text-gray-800"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-grow">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 id="modalTitle" class="text-2xl font-bold text-gray-800 dark:text-white">Task Title</h2>
+                    <span id="modalEarnings" class="text-indigo-600 font-bold text-lg">$0</span>
+                </div>
+                <div class="flex items-center text-gray-500 text-sm mb-6 dark:text-gray-400">
+                    <i class="fas fa-map-marker-alt mr-1"></i> <span id="modalWebsite">Website</span>
+                    <span class="mx-2">•</span>
+                    <i class="fas fa-star text-yellow-400 mr-1"></i> 4.8
+                </div>
+                
+                <h3 class="font-bold text-gray-800 mb-2 dark:text-white">Faahfaahin</h3>
+                <p id="modalDescription" class="text-gray-600 text-sm leading-relaxed mb-6 dark:text-gray-300">Description...</p>
+                
+                <div id="modalWarning" class="hidden bg-red-50 p-4 rounded-xl border border-red-100 mb-6 dark:bg-red-900/20 dark:border-red-800">
+                    <p class="text-red-600 text-sm font-medium dark:text-red-400"><i class="fas fa-exclamation-triangle mr-2"></i>Taxaddar: Website-kan waa laga shakisan yahay.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-50 p-3 rounded-xl dark:bg-gray-700">
+                        <p class="text-gray-400 text-xs">Waqtiga</p>
+                        <p class="font-semibold text-gray-800 dark:text-white">1h</p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-xl dark:bg-gray-700">
+                        <p class="text-gray-400 text-xs">Heerka</p>
+                        <p class="font-semibold text-gray-800 dark:text-white">Easy</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t dark:border-gray-700 bg-white dark:bg-darkCard safe-bottom">
+                <a id="modalLink" href="#" target="_blank" class="block w-full bg-indigo-600 text-white text-center py-4 rounded-xl font-bold shadow-lg hover:bg-indigo-700 transition">
+                    Dalbo Shaqadan
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="infoModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center backdrop-blur-sm px-4">
+        <div class="bg-white dark:bg-darkCard w-full max-w-sm rounded-3xl p-6 shadow-2xl transform transition-all scale-100">
+            <div class="text-center mb-4">
+                <div id="infoIcon" class="w-14 h-14 rounded-full bg-indigo-100 mx-auto mb-3 flex items-center justify-center text-2xl text-indigo-600">
+                    <i class="fas fa-info"></i>
+                </div>
+                <h3 id="infoTitle" class="text-xl font-bold text-gray-800 dark:text-white">Title</h3>
+            </div>
+            <div id="infoContent" class="text-sm text-gray-600 dark:text-gray-300 text-center mb-6 max-h-60 overflow-y-auto">
+                Content goes here...
+            </div>
+            <button onclick="document.getElementById('infoModal').classList.add('hidden')" class="w-full bg-gray-100 text-gray-800 font-bold py-3 rounded-xl hover:bg-gray-200 dark:bg-gray-700 dark:text-white">
+                Fahmay
+            </button>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-2 px-6 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] z-40 rounded-t-2xl flex justify-between items-center safe-bottom dark:bg-darkCard dark:border-gray-700 transition-colors">
+        <a href="#home" class="nav-item active flex flex-col items-center gap-1 w-16" onclick="activateNav(this, 'home')">
+            <div class="icon-container w-12 h-8 rounded-full flex items-center justify-center transition-colors">
+                <i class="fas fa-home text-lg"></i>
+            </div>
+            <span class="text-[10px] font-medium">Hoyga</span>
+        </a>
+        
+        <a href="#tasks" class="nav-item text-gray-400 flex flex-col items-center gap-1 w-16" onclick="activateNav(this, 'tasks')">
+            <div class="icon-container w-12 h-8 rounded-full flex items-center justify-center transition-colors">
+                <i class="fas fa-compass text-lg"></i>
+            </div>
+            <span class="text-[10px] font-medium">Raadi</span>
+        </a>
+        <a href="#profile" class="nav-item text-gray-400 flex flex-col items-center gap-1 w-16" onclick="activateNav(this, 'profile')">
+            <div class="icon-container w-12 h-8 rounded-full flex items-center justify-center transition-colors">
+                <i class="fas fa-user text-lg"></i>
+            </div>
+            <span class="text-[10px] font-medium">Koontada</span>
+        </a>
+    </nav>
+
+    <style>
+/* Toggle animation */
+input:checked~.dot {
+    transform: translateX(100%);
+    background-color: #6366f1;
+}
+
+input:checked~.toggle-bg {
+    background-color: #111827;
+    border-color: #1f2937;
+}
+
+/* Dark mode states */
+.dark body {
+    background: #0b1220;
+    color: #e5e7eb;
+}
+
+.dark .nav-item {
+    color: #9ca3af;
+}
+
+.dark .nav-item.active,
+.dark .nav-item:hover {
+    color: #a5b4fc;
+}
+
+.dark .icon-container {
+    background: #111827;
+}
+
+.dark .nav-item.active .icon-container {
+    background: #312e81;
+    color: #c7d2fe;
+}
+
+.dark .task-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    color: #f3f4f6;
+}
+    </style>
+
+<script src="app.js">
+
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(() => console.log('Service Worker registered'))
+            .catch(err => console.log('Service Worker registration failed:', err));
+    });
+}
+</script>
+<script src="language.js">
+
+</script>
+
+</body>
+</html>
