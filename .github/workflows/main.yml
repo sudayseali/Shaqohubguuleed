@@ -27,8 +27,7 @@ jobs:
 
       - name: Build APK
         run: |
-          bubblewrap init \
+          printf "n\n" | bubblewrap init \
             --manifest=https://shaqohubguuleed.vercel.app/manifest.json \
-            --jdk-path=$JAVA_HOME \
-            --yes
+            --jdk-path=$JAVA_HOME
           bubblewrap build
