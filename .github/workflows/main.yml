@@ -1,0 +1,48 @@
+name: Professional Android Build (Bubblewrap)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      - name: Build Android Project
+        run: |
+          # Waxaan isticmaalaynaa --skipConfig si uu u akhriyo faylashaada hadda jira
+          bubblewrap build --skipConfig
+        env:
+          BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Organize Artifacts
+        run: |
+          mkdir build-output
+          mv *.apk build-output/ || true
+          mv *.aab build-output/ || true
+          mv assetlinks.json build-output/ || true
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android-Release-Files
+          path: build-output/
