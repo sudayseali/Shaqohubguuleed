@@ -8,40 +8,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      JAVA_HOME: /usr/lib/jvm/temurin-17-jdk-amd64
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-      ANDROID_HOME: /usr/local/lib/android/sdk
-      BUBBLEWRAP_INSTALL_JDK: "false"
-      CI: "true"
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Setup Java 17
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v3
 
       - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
-      - name: Init Bubblewrap (NO QUESTIONS)
+      - name: Init Bubblewrap (FORCED NON-INTERACTIVE)
         run: |
-          bubblewrap init \
-            --manifest=https://shaqohubguuleed.vercel.app/manifest.json \
-            --jdk-path=$JAVA_HOME \
-            --yes
+          printf "n\n$JAVA_HOME\n" | bubblewrap init \
+            --manifest=https://shaqohubguuleed.vercel.app/manifest.json
 
       - name: Build APK
         run: bubblewrap build
