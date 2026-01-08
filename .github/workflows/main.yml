@@ -25,10 +25,32 @@ jobs:
       - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
-      - name: Init Bubblewrap (FORCED NON-INTERACTIVE)
+      - name: Install expect (for non-interactive init)
+        run: sudo apt-get update && sudo apt-get install -y expect
+
+      - name: Init Bubblewrap (non-interactive via expect)
+        env:
+          # actions/setup-java exposes JAVA_HOME automatically in run steps
+          JAVA_HOME: ${{ env.JAVA_HOME }}
         run: |
-          printf "n\n$JAVA_HOME\n" | bubblewrap init \
-            --manifest=https://shaqohubguuleed.vercel.app/manifest.json
+          cat > init.expect <<'EOF'
+          #!/usr/bin/expect -f
+          set timeout -1
+          spawn bubblewrap init --manifest=https://shaqohubguuleed.vercel.app/manifest.json
+          expect {
+            -re {Do you want Bubblewrap to install the JDK.*\(Y/n\) \?} {
+              send "n\r"
+              exp_continue
+            }
+            -re {Path to your existing JDK 17:} {
+              send "$env(JAVA_HOME)\r"
+              exp_continue
+            }
+            eof
+          }
+          EOF
+          chmod +x init.expect
+          ./init.expect
 
       - name: Build APK
         run: bubblewrap build
