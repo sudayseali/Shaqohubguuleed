@@ -37,8 +37,6 @@
       "url": "https://shaqohubguuleed.vercel.app/.well-known/assetlinks.json"
     }
   ],
-  "prefer_related_applications": true
-}
   "prefer_related_applications": true,
   "shortcuts": [
     {
@@ -46,8 +44,7 @@
       "short_name": "Raadi",
       "description": "Si degdeg ah u gal qaybta shaqooyinka",
       "url": "/index.html#tasks",
-      "icons": [{ "src": "192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
-}
 }
