@@ -33,7 +33,7 @@
     },
     {
       "platform": "play",
-      "id": "com.shaqohub.app",
+      "id": "app.vercel.shaqohubguuleed.twa",
       "url": "https://shaqohubguuleed.vercel.app/.well-known/assetlinks.json"
     }
   ],
