@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "com.shaqohub.app",
-        "sha256_cert_fingerprints": ["02:8B:06:F7:AA:D3:DB:14:69:87:02:B6:6F:E0:39:89:F3:AA:90:9A:E7:E1:9C:13:25:9A:A9:72:87:C8:E8:02"]
+        "sha256_cert_fingerprints": ["3C:3C:32:AD:2B:8F:7A:99:69:65:B3:7A:EE:99:87:A0:63:B1:5C:2C:94:A0:9C:88:67:85:D6:3A:66:53:B0:8B"]
       }
     }]
