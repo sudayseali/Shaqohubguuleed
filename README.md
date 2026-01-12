@@ -1,3 +1,1 @@
-# Termux
-# Cabdikariimcali
-# Cabdikariimcali
+#welcome
