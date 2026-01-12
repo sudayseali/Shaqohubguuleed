@@ -1,15 +1,14 @@
 {
   "name": "ShaqoHub - Raadista Shaqooyin",
   "short_name": "ShaqoHub",
-  "description": "Hel shaqooyin internetka ah oo sugan, kana ilaalo kuwa khiyaanada ah. ShaqoHub waa ilahaaga koowaad ee shaqo raadinta online-ka ah.",
   "id": "/",
   "start_url": "./index.html",
-  "display": "standalone",
-  "display_override": ["window-controls-overlay", "minimal-ui"],
   "scope": "/",
+  "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#6366f1",
+  "description": "Hel shaqooyin internetka ah oo sugan, kana ilaalo kuwa khiyaanada ah. ShaqoHub waa ilahaaga koowaad ee shaqo raadinta online-ka ah.",
   "lang": "so",
   "dir": "ltr",
   "categories": ["business", "productivity", "utilities"],
@@ -21,47 +20,25 @@
       "purpose": "any"
     },
     {
-      "src": "192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
       "src": "512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "screenshot1.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Hoyga ShaqoHub ee Mobile-ka"
-    },
-    {
-      "src": "screenshot2.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Dashboard-ka ShaqoHub ee Desktop-ka"
     }
   ],
   "related_applications": [
     {
+      "platform": "webapp",
+      "url": "https://shaqohubguuleed.vercel.app/manifest.json"
+    },
+    {
       "platform": "play",
-      "url": "https://shaqohubguuleed.vercel.app/.well-known/assetlinks.json",
-      "id": "com.shaqohub.app"
+      "id": "com.shaqohub.app",
+      "url": "https://shaqohubguuleed.vercel.app/.well-known/assetlinks.json"
     }
   ],
+  "prefer_related_applications": true
+}
   "prefer_related_applications": true,
   "shortcuts": [
     {
