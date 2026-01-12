@@ -362,6 +362,26 @@ if ('serviceWorker' in navigator) {
 <script src="language.js">
 
 </script>
+<script>
+
+  // Haddii uusan qofku ku jirin habka "Standalone" (oo ah App-ka)
+
+  if (!window.matchMedia('(display-mode: standalone)').matches) {
+
+      // Halkan geli link-ga aad rabto in loo wareejiyo (tusaale bog kale)
+
+      // window.location.href = "https://shaqohub.info/download"; 
+
+      
+
+      // Ama qoraal u qor:
+
+      document.body.innerHTML = "<h1>Fadlan soo degso App-ka rasmiga ah si aad u gasho ShaqoHub.</h1>";
+
+  }
+
+</script>
+
 
 </body>
 </html>
