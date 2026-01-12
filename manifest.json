@@ -28,12 +28,12 @@
   ],
   "related_applications": [
     {
-      "platform": "webapp",
+      "platform": "app",
       "url": "https://shaqohubguuleed.vercel.app/manifest.json"
     },
     {
       "platform": "play",
-      "id": "app.vercel.shaqohubguuleed.twa",
+      "id": "",
       "url": "https://shaqohubguuleed.vercel.app/.well-known/assetlinks.json"
     }
   ],
