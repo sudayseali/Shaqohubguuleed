@@ -2,7 +2,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "app.vercel.shaqohubguuleed.twa",
+        "package_name": "com.shaqohub.app",
         "sha256_cert_fingerprints": ["02:8B:06:F7:AA:D3:DB:14:69:87:02:B6:6F:E0:39:89:F3:AA:90:9A:E7:E1:9C:13:25:9A:A9:72:87:C8:E8:02"]
       }
     }]
