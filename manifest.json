@@ -2,7 +2,7 @@
   "name": "ShaqoHub - Raadista Shaqooyin",
   "short_name": "ShaqoHub",
   "id": "/",
-  "start_url": "./index.html",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
