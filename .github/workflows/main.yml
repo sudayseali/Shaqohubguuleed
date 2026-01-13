@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22 # Waxaan ka dhignay nooca ugu dambeeyay ee la dalbaday
+          node-version: 22
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -26,29 +26,26 @@ jobs:
 
       - name: Prepare Project
         run: |
-          # 1. Hubi package.json
           if [ ! -f package.json ]; then
             npm init -y
           fi
           
-          # 2. Ku shub noocyada saxda ah ee Capacitor
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
 
-          # 3. Samee folder-ka web-ka 'www'
           mkdir -p www
           cp -r index.html app.js language.js manifest.json service-worker.js offline.html www/ 2>/dev/null || :
           
-          # 4. Initialize Capacitor (Hubi in macluumaadku sax yihiin)
           npx cap init "ShaqoHub" "com.shaqohub.app" --web-dir www
-          
-          # 5. Ku dar oo Sync dheh Android
           npx cap add android
-          npx cap sync android
-
-      - name: Update Gradle (Xal u helida Dependency errors)
+          
+      - name: Fix Gradle Version (8.13 Update)
         run: |
           cd android
-          ./gradlew wrapper --gradle-version 8.5 --distribution-type all
+          # Waxaan u cusboonaysiinay 8.13 sidii ciladdu codsatay
+          ./gradlew wrapper --gradle-version 8.13 --distribution-type all
+          
+      - name: Sync Capacitor
+        run: npx cap sync android
 
       - name: Build APK (Debug)
         run: |
