@@ -24,24 +24,36 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - name: Prepare Project
+      - name: Prepare Project & Icons
         run: |
           if [ ! -f package.json ]; then
             npm init -y
           fi
           
+          # 1. Ku shub Capacitor iyo aaladda Icon-ka
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          npm install -g cordova-res
 
-          mkdir -p www
-          cp -r index.html app.js language.js manifest.json service-worker.js offline.html www/ 2>/dev/null || :
+          # 2. Diyaari folder-ka 'resources' si loogu sameeyo icon-ka
+          mkdir -p resources
+          # Waxaan u isticmaalaynaa 512.png sawirka rasmiga ah ee icon-ka
+          cp 512.png resources/icon.png 2>/dev/null || cp 192.png resources/icon.png
           
+          # 3. Diyaari folder-ka web-ka
+          mkdir -p www
+          cp -r index.html app.js language.js manifest.json service-worker.js offline.html *.png www/ 2>/dev/null || :
+          
+          # 4. Initialize & Add Android
           npx cap init "ShaqoHub" "com.shaqohub.app" --web-dir www
           npx cap add android
           
-      - name: Fix Gradle Version (8.13 Update)
+          # 5. SAXIDDA ICON-KA: Samee icon-ada dhamaan xajmiyada
+          # Tani waxay si toos ah u beddelaysaa icon-ka caadiga ah ee Android
+          cordova-res android --skip-config --copy
+
+      - name: Fix Gradle Version
         run: |
           cd android
-          # Waxaan u cusboonaysiinay 8.13 sidii ciladdu codsatay
           ./gradlew wrapper --gradle-version 8.13 --distribution-type all
           
       - name: Sync Capacitor
